@@ -134,7 +134,7 @@ jobs:
       - name: Setup universal builds on MacOS
         if: runner.os == 'macOS'
         run: |
-          echo 'CMAKE_OSX_ARCHITECTURES="arm64;x86_64"' >> $GITHUB_ENV
+          echo 'CMAKE_OSX_ARCHITECTURES=arm64;x86_64' >> $GITHUB_ENV
 
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
