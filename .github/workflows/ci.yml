@@ -131,6 +131,11 @@ jobs:
         run: |
           conan remove -f '*/system'
 
+      - name: Setup universal builds on MacOS
+        if: runner.os == 'macOS'
+        run: |
+          echo 'CMAKE_OSX_ARCHITECTURES="arm64;x86_64"' >> $GITHUB_ENV
+
         # make sure coverage is only enabled for Debug builds, since it sets -O0 to make sure coverage
         # has meaningful results
       - name: Configure CMake
@@ -150,6 +155,19 @@ jobs:
         run: |
           ctest -C ${{matrix.build_type}}
           gcovr -j ${{env.nproc}} --delete --root ../ --print-summary --xml-pretty --xml coverage.xml . --gcov-executable '${{ matrix.gcov_executable }}'
+
+      - name: Check for universal builds on MacOS
+        if: runner.os == 'macOS'
+        # If we have properly built a universal binary, we should see this output:
+        # Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
+        run: |
+          export BINARY_TYPE=$(file ./build/src/intro)
+          echo "intro is a ${BINARY_TYPE}"
+          if [[ "${BINARY_TYPE}" == *"arm64e"* ]] || [[ "${BINARY_TYPE}" == *"x86_64"* ]]; then
+            echo "It's a universal build! 🎉"
+          else
+            echo "It's not a universal build! 💩"
+          fi        
 
       - name: Windows - Test and coverage
         if: runner.os == 'Windows'
