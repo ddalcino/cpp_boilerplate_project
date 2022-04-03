@@ -4,9 +4,9 @@ on:
     paths:
       - docker
       - .github/workflows/publish-dockerfile
-  pull_request:
-    paths:
-      - docker
+#  pull_request:
+#    paths:
+#      - docker
   workflow_dispatch:
 
 
