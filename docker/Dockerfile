@@ -2,6 +2,8 @@
 ARG VARIANT="focal"
 FROM ubuntu:${VARIANT}
 
+# trigger run?
+
 # Restate the variant to use it later on in the llvm and cmake installations
 ARG VARIANT
 
