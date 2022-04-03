@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - docker
-      - .github/workflows/publish-dockerfile
+      - .github/workflows/publish-dockerfile.yml
 #  pull_request:
 #    paths:
 #      - docker
